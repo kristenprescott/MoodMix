@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./Searchbar.css";
 
 export default function Searchbar(props) {
   // hooks:
@@ -24,24 +25,30 @@ export default function Searchbar(props) {
     setSearchTerm("");
   };
   return (
-    <div className="searchbar">
+    <div className="search-wrapper">
       <form onSubmit={handleSubmit}>
-        <input
-          name="searchbar"
-          className="search-input"
-          type="text"
-          placeholder="search..."
-          onChange={handleInput}
-          value={searchTerm}
-        ></input>
-        <button
-          type="submit"
-          value="Submit"
-          onSubmit={handleSubmit}
-          className="btn submit-btn"
-        >
-          Submit
-        </button>
+        <div className="searchbar-container">
+          <input
+            name="searchbar"
+            className="searchbar"
+            type="text"
+            autoComplete="off"
+            placeholder="search..."
+            onChange={handleInput}
+            value={searchTerm}
+          ></input>
+        </div>
+
+        <div className="btn-container search-btn-container">
+          <button
+            type="submit"
+            value="Submit"
+            onSubmit={handleSubmit}
+            className="btn search-btn"
+          >
+            Search
+          </button>
+        </div>
       </form>
     </div>
   );

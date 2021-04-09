@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "../../../src/App.css";
+import "./Sliders.css";
 
 export default function Sliders(props) {
   //   // audioFeatures:
@@ -72,6 +73,7 @@ export default function Sliders(props) {
             value={tempoValue}
             onChange={handleTempo}
           ></input>
+          <output htmlFor="tempo"></output>
         </div>
 
         <div className="energy-slider sliders">

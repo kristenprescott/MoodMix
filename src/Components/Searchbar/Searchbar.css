@@ -1,0 +1,96 @@
+.search-wrapper {
+  /*  */
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: column;
+  /* flex-wrap: nowrap; */
+  border: none;
+  outline: none;
+  background: none;
+  width: 60rem;
+  height: 5rem;
+  padding: 60px 35px 35px 35px;
+  border-radius: 40px;
+  background: #ecf0f3;
+  /* box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #ffffff; */
+  box-shadow: 13px 13px 20px rgba(0, 0, 0, 0.2),
+    -13px -13px 20px rgba(255, 255, 255, 0.2);
+
+  /* border: 1px solid blue; */
+}
+
+.searchbar-container {
+  display: flex;
+  /* flex-direction: column; */
+  justify-content: flex-end;
+  padding: 0.5rem;
+  border: none;
+  outline: none;
+  background: none;
+  width: 100%;
+  /* padding: 7.5rem 0.5rem 0.5rem 0.5rem; */
+  /* padding: 60px 35px 35px 35px; */
+  /* border: 1px solid pink; */
+}
+
+.searchbar {
+  /* padding: 1rem; */
+  width: 25rem;
+  height: 4rem;
+  border: none;
+  outline: none;
+  background: none;
+  /* margin-bottom: 3rem; */
+  border-radius: 2.5rem;
+  box-shadow: inset 7px 7px 7px #cbced1, inset -8px -8px 9px #ffffff;
+  font-size: 1.8rem;
+  text-align: center;
+  /* text-shadow: -2px 1px 1px #333; */
+  /* border: 1px solid orange; */
+}
+.searchbar:hover {
+  box-shadow: inset 9px 9px 3px #cbced1, inset -8px -8px 8px #ffffff;
+}
+.searchbar:focus {
+  box-shadow: inset -8px -8px 6px #ffffff, inset 8px 8px 3px #cbced1;
+  /* GLOWY TEXT: */
+  /* text-shadow: 0 0 5px tomato, 0 0 3px darkslategray; */
+}
+
+/* SEARCH BTN */
+.btn-container {
+  border: 1.5px solid floralwhite;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* width: 30rem; */
+  /* height: 10rem; */
+  background-color: #ecf0f3;
+  border-radius: 5.5rem;
+  width: 28rem;
+  height: 7rem;
+}
+.btn {
+  border-radius: 28px;
+  border: 1px solid gainsboro;
+  /* width: 25rem; */
+  /* height: 5rem; */
+  background-color: #ecf0f3;
+  box-shadow: 1rem 1rem 2rem #b3b3b3, inset -2rem -2rem 1rem #e6e6e6;
+  /* SET UP SEPARATE STYLES FOR ACCESSIBILITY */
+  outline: 0;
+  font-size: 2rem;
+  text-align: center;
+  width: 25rem;
+  height: 4rem;
+}
+.btn:hover {
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.5), 0 0 3px #fff;
+}
+.btn:active {
+  /* LESS GAUDY: */
+  /* box-shadow: inset 1rem 1rem 2rem #b3b3b3, -2rem -2rem 3rem #e6e6e6; */
+  box-shadow: inset 2rem 2rem 1rem #b3b3b3, inset -2rem -2rem 1rem #e6e6e6;
+}
