@@ -37,13 +37,13 @@ export default function App() {
 
   // hooks:
   const [token, setToken] = useState("");
-  console.log("token", token);
+  // console.log("token", token);
   const [genres, setGenres] = useState({ selectedGenre: "", listOfGenres: [] });
   const [playlist, setPlaylist] = useState({
     selectedPlaylist: "",
     listOfPlaylist: [],
   });
-  const [seedGenreRecs, setSeedGenreRecs] = useState([]);
+  // const [seedGenreRecs, setSeedGenreRecs] = useState([]);
 
   useEffect(() => {
     // GET API token:
@@ -121,8 +121,7 @@ export default function App() {
         listOfPlaylist: playlistResponse.data.playlists.item,
       });
     });
-    console.log("after getPlaylists - token: ", token);
-    console.log("value", value);
+    // console.log("value", value);
   };
 
   const playlistChanged = (value) => {
@@ -169,6 +168,7 @@ export default function App() {
                 className="menu"
                 options={playlist.listOfPlaylist}
                 selectedValue={playlist.selectedPlaylist}
+                changed={playlistChanged}
               />
             </div>
 
