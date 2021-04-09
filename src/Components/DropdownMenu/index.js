@@ -1,18 +1,16 @@
-// import { useState } from "react";
 import "../../App.css";
 
 export default function DropdownMenu(props) {
-  // hooks:
-  // NOTE: we will also now remove all state-related calls...
-  // const [selectedValue, setSelectedValue] = useState("");
-  // const [pValue, setPValue] = useState("");
-
   // event handlers:
   // state now manages selectedGenre in addition to the array of genres:
   // it recieves an event and calls the method recieved from the App component
   // NOTE: we will also now remove all state-related calls
   const dropdownChanged = (e) => {
+    // e.preventDefault();
     props.changed(e.target.value);
+    // console.log("dropdown changed - event: ", e);
+    // console.log("dropdown changed to: ", e.target.value);
+    // console.log("dropdown target: ", e.target);
   };
 
   return (
@@ -35,13 +33,11 @@ export default function DropdownMenu(props) {
       >
         {props.options &&
           props.options.map((item, i) => (
-            <option className="menu-selection option" key={i} value={item.id}>
+            <option key={i} value={item.id} className="menu-selection option">
               {item.name}
             </option>
           ))}
       </select>
-      {/* NOTE: we will also now remove all state-related calls... */}
-      {/* <p>{selectedValue}</p> */}
     </div>
   );
 }

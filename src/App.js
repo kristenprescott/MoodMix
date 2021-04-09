@@ -5,6 +5,7 @@ import DropdownMenu from "./Components/DropdownMenu";
 import Navbar from "./Components/Navbar";
 import Searchbar from "./Components/Searchbar";
 import Sliders from "./Components/Sliders";
+import Listbox from "./Components/Listbox";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -43,6 +44,9 @@ export default function App() {
     selectedPlaylist: "",
     listOfPlaylist: [],
   });
+  const [tracks, setTracks] = useState({ selectedTrack: "", listOfTracks: [] });
+  //
+  const [trackDetail, setTrackDetail] = useState(null);
   // const [seedGenreRecs, setSeedGenreRecs] = useState([]);
 
   useEffect(() => {
@@ -110,18 +114,29 @@ export default function App() {
       selectedGenre: value,
       listOfGenres: genres.listOfGenres,
     });
-
+    // console.log("genres.listOfGenres", genres.listOfGenres);
+    //
     // GET playlists
-    axios(`https://api.spotify.com/v1/browse/categories/${value}/playlists?`, {
-      method: "GET",
-      headers: { Authorization: "Bearer " + token },
-    }).then((playlistResponse) => {
+    https: axios(
+      `https://api.spotify.com/v1/browse/categories/${value}/playlists?limit=10`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    ).then((playlistResponse) => {
       setPlaylist({
         selectedPlaylist: playlist.selectedPlaylist,
-        listOfPlaylist: playlistResponse.data.playlists.item,
+        listOfPlaylist: playlistResponse.data.playlists.items,
       });
+      // console.log("Genre.value: ", value);
+      // console.log("playlist.selectedPlaylist", playlist.selectedPlaylist);
+      // console.log(
+      //   "playlistResponse.data.playlists.items",
+      //   playlistResponse.data.playlists.items
+      // );
     });
-    // console.log("value", value);
   };
 
   const playlistChanged = (value) => {
@@ -129,6 +144,43 @@ export default function App() {
       selectedPlaylist: value,
       listOfPlaylist: playlist.listOfPlaylist,
     });
+    console.log("playlist changed");
+    // console.log("Playlist value", value);
+    // console.log("playlist item: ", listOfPlaylist);
+  };
+
+  // click event triggers api call to get list of tracks for selected playlist
+  // btn click populates a list of tracks and a clickable Listbox component
+  const buttonClicked = (e) => {
+    e.preventDefault();
+    // console.log("buttonClicked", e.target, e.target.value);
+
+    axios(
+      `https://api.spotify.com/v1/playlists/${playlist.selectedPlaylist}/tracks?limit=10`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    ).then((tracksResponse) => {
+      setTracks({
+        selectedTrack: tracks.selectedTrack,
+        listOfTracks: tracksResponse.data.items,
+      });
+    });
+  };
+
+  //handles listbox submit
+  const listboxClicked = (value) => {
+    // console.log("listboxClicked");
+
+    const currentTracks = [...tracks.listOfTracks];
+
+    const trackInfo = currentTracks.filter((t) => t.track.id === value);
+
+    // console.log("trackInfo: ", trackInfo[0].track.id);
+    setTrackDetail(trackInfo[0].track);
   };
 
   return (
@@ -144,45 +196,46 @@ export default function App() {
           <Searchbar data={() => {}} />
         </div>
 
-        <form onSubmit={() => {}}>
-          <div className="flex-center dropdown-container">
-            {/* <div className="dropdown">
+        <form onSubmit={buttonClicked}>
+          {/* <div className="flex-center dropdown-container"> */}
+          {/* <div className="dropdown">
               <DropdownMenu className="menu" seedGenreRecs={seedGenreRecs} />
             </div> */}
 
-            <div className="dropdown">
-              {/* <DropdownMenu className="menu" options={genres} /> */}
-              {/* state now manages selectedGenre in addition to the array of genres: */}
-              {/* the selected state will now be set by passing an app component method to the dropdown as a prop */}
-              {/* we'll also pass the selectedValue as a prop  */}
-              <DropdownMenu
-                className="menu"
-                options={genres.listOfGenres}
-                selectedValue={genres.selectedGenre}
-                changed={genreChanged}
-              />
-            </div>
+          {/* <div className="dropdown"> */}
+          {/* <DropdownMenu className="menu" options={genres} /> */}
+          {/* state now manages selectedGenre in addition to the array of genres: */}
+          {/* the selected state will now be set by passing an app component method to the dropdown as a prop */}
+          {/* we'll also pass the selectedValue as a prop  */}
+          <DropdownMenu
+            className="menu"
+            options={genres.listOfGenres}
+            selectedValue={genres.selectedGenre}
+            changed={genreChanged}
+          />
+          {/* </div> */}
 
-            <div className="dropdown">
-              <DropdownMenu
-                className="menu"
-                options={playlist.listOfPlaylist}
-                selectedValue={playlist.selectedPlaylist}
-                changed={playlistChanged}
-              />
-            </div>
+          {/* <div className="dropdown"> */}
+          <DropdownMenu
+            className="menu"
+            options={playlist.listOfPlaylist}
+            selectedValue={playlist.selectedPlaylist}
+            changed={playlistChanged}
+          />
+          {/* </div> */}
 
-            <div className="btn-container submit-btn-container">
-              <button
-                type="submit"
-                value="Submit"
-                // onSubmit={handleSubmit}
-                className="btn submit-btn"
-              >
-                Submit
-              </button>
-            </div>
-          </div>
+          {/* <div className="btn-container submit-btn-container"> */}
+          <button
+            type="submit"
+            // value="Submit"
+            // onSubmit={handleSubmit}
+            className="btn submit-btn"
+          >
+            Submit
+          </button>
+          {/* </div> */}
+          <Listbox items={tracks.listOfTracks} clicked={listboxClicked} />
+          {/* </div> */}
         </form>
       </div>
 
