@@ -1,13 +1,14 @@
 // import { HashRouter as Router, Route, Switch, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { Credentials } from "./Components/Credentials";
-import "./App.css";
 import DropdownMenu from "./Components/DropdownMenu";
 import Navbar from "./Components/Navbar";
 import Searchbar from "./Components/Searchbar";
 import Sliders from "./Components/Sliders";
 import Listbox from "./Components/Listbox";
-import { useState, useEffect } from "react";
+import Details from "./Components/Details";
 import axios from "axios";
+import "./App.css";
 
 //#region ROUTING:
 // Save the Component, key and path in an array of objects for each Route
@@ -34,7 +35,7 @@ export default function App() {
   // // api credentials:
   const spotify = Credentials();
 
-  console.log("RENDERING APP.JS");
+  console.count("RENDERING APP.JS");
 
   // hooks:
   const [token, setToken] = useState("");
@@ -45,7 +46,6 @@ export default function App() {
     listOfPlaylist: [],
   });
   const [tracks, setTracks] = useState({ selectedTrack: "", listOfTracks: [] });
-  //
   const [trackDetail, setTrackDetail] = useState(null);
   // const [seedGenreRecs, setSeedGenreRecs] = useState([]);
 
@@ -60,7 +60,6 @@ export default function App() {
       data: "grant_type=client_credentials",
       method: "POST",
     }).then((tokenResponse) => {
-      // console.log("access_token: ", tokenResponse.data.access_token);
       setToken(tokenResponse.data.access_token);
 
       //  GET genres:
@@ -114,10 +113,9 @@ export default function App() {
       selectedGenre: value,
       listOfGenres: genres.listOfGenres,
     });
-    // console.log("genres.listOfGenres", genres.listOfGenres);
     //
     // GET playlists
-    https: axios(
+    axios(
       `https://api.spotify.com/v1/browse/categories/${value}/playlists?limit=10`,
       {
         method: "GET",
@@ -130,12 +128,6 @@ export default function App() {
         selectedPlaylist: playlist.selectedPlaylist,
         listOfPlaylist: playlistResponse.data.playlists.items,
       });
-      // console.log("Genre.value: ", value);
-      // console.log("playlist.selectedPlaylist", playlist.selectedPlaylist);
-      // console.log(
-      //   "playlistResponse.data.playlists.items",
-      //   playlistResponse.data.playlists.items
-      // );
     });
   };
 
@@ -144,16 +136,12 @@ export default function App() {
       selectedPlaylist: value,
       listOfPlaylist: playlist.listOfPlaylist,
     });
-    console.log("playlist changed");
-    // console.log("Playlist value", value);
-    // console.log("playlist item: ", listOfPlaylist);
   };
 
   // click event triggers api call to get list of tracks for selected playlist
   // btn click populates a list of tracks and a clickable Listbox component
   const buttonClicked = (e) => {
     e.preventDefault();
-    // console.log("buttonClicked", e.target, e.target.value);
 
     axios(
       `https://api.spotify.com/v1/playlists/${playlist.selectedPlaylist}/tracks?limit=10`,
@@ -173,13 +161,14 @@ export default function App() {
 
   //handles listbox submit
   const listboxClicked = (value) => {
-    // console.log("listboxClicked");
-
     const currentTracks = [...tracks.listOfTracks];
-
     const trackInfo = currentTracks.filter((t) => t.track.id === value);
+    // when we click on the listbox item we get the selectedTrack id - we set it here as the id of the button
+    // we then use the spread operator on the tracks state var to create a new list of tracks
+    // then we use filter to find the track id that matched our buttons id
+    // finally, we store track info in it's state var
+    // (we will create one more component to hold this detail info)
 
-    // console.log("trackInfo: ", trackInfo[0].track.id);
     setTrackDetail(trackInfo[0].track);
   };
 
@@ -197,45 +186,46 @@ export default function App() {
         </div>
 
         <form onSubmit={buttonClicked}>
-          {/* <div className="flex-center dropdown-container"> */}
-          {/* <div className="dropdown">
+          <div className="flex-center dropdown-container">
+            {/* <div className="dropdown">
               <DropdownMenu className="menu" seedGenreRecs={seedGenreRecs} />
             </div> */}
 
-          {/* <div className="dropdown"> */}
-          {/* <DropdownMenu className="menu" options={genres} /> */}
-          {/* state now manages selectedGenre in addition to the array of genres: */}
-          {/* the selected state will now be set by passing an app component method to the dropdown as a prop */}
-          {/* we'll also pass the selectedValue as a prop  */}
-          <DropdownMenu
-            className="menu"
-            options={genres.listOfGenres}
-            selectedValue={genres.selectedGenre}
-            changed={genreChanged}
-          />
-          {/* </div> */}
+            <div className="dropdown">
+              <DropdownMenu
+                className="menu"
+                options={genres.listOfGenres}
+                selectedValue={genres.selectedGenre}
+                changed={genreChanged}
+              />
+            </div>
 
-          {/* <div className="dropdown"> */}
-          <DropdownMenu
-            className="menu"
-            options={playlist.listOfPlaylist}
-            selectedValue={playlist.selectedPlaylist}
-            changed={playlistChanged}
-          />
-          {/* </div> */}
+            <div className="dropdown">
+              <DropdownMenu
+                className="menu"
+                options={playlist.listOfPlaylist}
+                selectedValue={playlist.selectedPlaylist}
+                changed={playlistChanged}
+              />
+            </div>
 
-          {/* <div className="btn-container submit-btn-container"> */}
-          <button
-            type="submit"
-            // value="Submit"
-            // onSubmit={handleSubmit}
-            className="btn submit-btn"
-          >
-            Submit
-          </button>
-          {/* </div> */}
-          <Listbox items={tracks.listOfTracks} clicked={listboxClicked} />
-          {/* </div> */}
+            <div className="btn-container submit-btn-container">
+              <button
+                type="submit"
+                // value="Submit"
+                // onSubmit={handleSubmit}
+                className="btn submit-btn"
+              >
+                Submit
+              </button>
+            </div>
+            <Listbox items={tracks.listOfTracks} clicked={listboxClicked} />
+
+            {/* we're passing our track object to the track Detail component using the spread operator */}
+            {/* the properties of the track object are extracted for us this way */}
+            {/* this allows us to use object destructuring in the component */}
+            {trackDetail && <Details {...trackDetail} />}
+          </div>
         </form>
       </div>
 

@@ -8,9 +8,6 @@ export default function DropdownMenu(props) {
   const dropdownChanged = (e) => {
     // e.preventDefault();
     props.changed(e.target.value);
-    // console.log("dropdown changed - event: ", e);
-    // console.log("dropdown changed to: ", e.target.value);
-    // console.log("dropdown target: ", e.target);
   };
 
   return (

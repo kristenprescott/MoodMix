@@ -4,8 +4,6 @@ const Listbox = (props) => {
   // event handlers:
   const clicked = (e) => {
     e.preventDefault();
-    console.log("clicked clicked");
-    console.log("playlist changed: ", e.target.value, e.target.id);
 
     props.clicked(e.target.id);
   };
