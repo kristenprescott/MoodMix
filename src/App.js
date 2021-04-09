@@ -1,5 +1,5 @@
 // import { HashRouter as Router, Route, Switch, Link } from "react-router-dom";
-// import { Credentials } from "./Components/Credentials";
+import { Credentials } from "./Components/Credentials";
 import "./App.css";
 import DropdownMenu from "./Components/DropdownMenu";
 import Navbar from "./Components/Navbar";
@@ -31,28 +31,19 @@ import axios from "axios";
 
 export default function App() {
   // // api credentials:
-  // NOTE: currently storing these vars in .env and using them here -
-  // *may* import credentials later and add Client_Id & Client_Secret as dependencies of useEffect():
-  // will then replace process.env vars w:
-  // spotify.ClientId spotify.ClientSecret
-  // const spotify = Credentials();
+  const spotify = Credentials();
 
   console.log("RENDERING APP.JS");
-
-  // array of object data to pass to pass to our dropdown menu
-  // these will be placeholders for future API data to ensure our state is funcitoning correctly
-  const data = [
-    { value: 1, name: "A" },
-    { value: 2, name: "B" },
-    { value: 3, name: "C" },
-  ];
 
   // hooks:
   const [token, setToken] = useState("");
   console.log("token", token);
-
-  const [seedGenreRec, setSeedGenreRec] = useState([]);
-  // console.log("seedGenreRec: ", seedGenreRec);
+  const [genres, setGenres] = useState({ selectedGenre: "", listOfGenres: [] });
+  const [playlist, setPlaylist] = useState({
+    selectedPlaylist: "",
+    listOfPlaylist: [],
+  });
+  const [seedGenreRecs, setSeedGenreRecs] = useState([]);
 
   useEffect(() => {
     // GET API token:
@@ -60,55 +51,94 @@ export default function App() {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
         Authorization:
-          "Basic " +
-          btoa(
-            process.env.REACT_APP_CLIENT_ID +
-              ":" +
-              process.env.REACT_APP_CLIENT_SECRET
-          ),
+          "Basic " + btoa(spotify.ClientId + ":" + spotify.ClientSecret),
       },
       data: "grant_type=client_credentials",
       method: "POST",
     }).then((tokenResponse) => {
-      // console.log("tokenResponse: ", tokenResponse);
       // console.log("access_token: ", tokenResponse.data.access_token);
       setToken(tokenResponse.data.access_token);
-      // GET seed genre recommendations:
-      axios(
-        "https://api.spotify.com/v1/recommendations?market=US&seed_genres=classical%2Ccountry%2Crap%2Crock%2Cpop&min_acousticness=0.3",
-        {
-          method: "GET",
-          headers: {
-            Authorization: "Bearer " + tokenResponse.data.access_token,
-            // Accept: "application/json",
-            // "Content-Type": "application/json",
-          },
-        }
-      ).then((seedGenreRecResponse) => {
-        setSeedGenreRec(seedGenreRec.tracks);
-        console.log("seedGenreRecResponse: ", seedGenreRecResponse);
-        console.log(
-          "seedGenreRecResponse.data.tracks: ",
-          seedGenreRecResponse.data.tracks
-        );
-        console.log(
-          "seedGenreRecResponse.data.tracks[0].id: ",
-          seedGenreRecResponse.data.tracks[0].id
-        );
+
+      //  GET genres:
+      axios("https://api.spotify.com/v1/browse/categories", {
+        method: "GET",
+        headers: { Authorization: "Bearer " + tokenResponse.data.access_token },
+      }).then((genreResponse) => {
+        // setGenres(genreResponse.data.categories.items);
+        // // state now manages selectedGenre in addition to the array of genres:
+        setGenres({
+          selectedGenre: genres.selectedGenre,
+          listOfGenres: genreResponse.data.categories.items,
+        });
       });
+
+      // // GET seed genre recommendations:
+      // axios(
+      //   "https://api.spotify.com/v1/recommendations?market=US&seed_genres=classical%2Ccountry%2Crap%2Crock%2Cpop&min_acousticness=0.3",
+      //   {
+      //     method: "GET",
+      //     headers: {
+      //       Authorization: "Bearer " + tokenResponse.data.access_token,
+      //       // Accept: "application/json",
+      //       // "Content-Type": "application/json",
+      //     },
+      //   }
+      // ).then((seedGenreRecsResponse) => {
+      //   setSeedGenreRecs(seedGenreRecs.tracks);
+      //   console.log("seedGenreRecsResponse: ", seedGenreRecsResponse);
+      //   console.log(
+      //     "seedGenreRecsResponse.data.tracks: ",
+      //     seedGenreRecsResponse.data.tracks
+      //   );
+      //   console.log(
+      //     "seedGenreRecsResponse.data.tracks[0].id: ",
+      //     seedGenreRecsResponse.data.tracks[0].id
+      //   );
+      //   console.log(
+      //     "seedGenreRecsResponse.data.tracks[0].name: ",
+      //     seedGenreRecsResponse.data.tracks[0].name
+      //   );
+      // });
 
       //
     });
-    //
-  }, []);
+  }, [genres.selectedGenre, spotify.ClientId, spotify.ClientSecret]);
+
+  // genreChanged handles playlist update:
+  const genreChanged = (value) => {
+    setGenres({
+      selectedGenre: value,
+      listOfGenres: genres.listOfGenres,
+    });
+
+    // GET playlists
+    axios(`https://api.spotify.com/v1/browse/categories/${value}/playlists?`, {
+      method: "GET",
+      headers: { Authorization: "Bearer " + token },
+    }).then((playlistResponse) => {
+      setPlaylist({
+        selectedPlaylist: playlist.selectedPlaylist,
+        listOfPlaylist: playlistResponse.data.playlists.item,
+      });
+    });
+    console.log("after getPlaylists - token: ", token);
+    console.log("value", value);
+  };
+
+  const playlistChanged = (value) => {
+    setPlaylist({
+      selectedPlaylist: value,
+      listOfPlaylist: playlist.listOfPlaylist,
+    });
+  };
 
   return (
     <div className="App">
       <Navbar />
-      <div>
+      {/* <div>
         <h3>TRACK DATA</h3>
-        <p>{seedGenreRec}</p>
-      </div>
+        <p>{seedGenreRecs}</p>
+      </div> */}
 
       <div className="selections">
         <div className="searchbar-container">
@@ -117,14 +147,29 @@ export default function App() {
 
         <form onSubmit={() => {}}>
           <div className="flex-center dropdown-container">
+            {/* <div className="dropdown">
+              <DropdownMenu className="menu" seedGenreRecs={seedGenreRecs} />
+            </div> */}
+
             <div className="dropdown">
-              <DropdownMenu className="menu" options={data} />
+              {/* <DropdownMenu className="menu" options={genres} /> */}
+              {/* state now manages selectedGenre in addition to the array of genres: */}
+              {/* the selected state will now be set by passing an app component method to the dropdown as a prop */}
+              {/* we'll also pass the selectedValue as a prop  */}
+              <DropdownMenu
+                className="menu"
+                options={genres.listOfGenres}
+                selectedValue={genres.selectedGenre}
+                changed={genreChanged}
+              />
             </div>
+
             <div className="dropdown">
-              <DropdownMenu className="menu" options={data} />
-            </div>
-            <div className="dropdown">
-              <DropdownMenu className="menu" options={data} />
+              <DropdownMenu
+                className="menu"
+                options={playlist.listOfPlaylist}
+                selectedValue={playlist.selectedPlaylist}
+              />
             </div>
 
             <div className="btn-container submit-btn-container">
