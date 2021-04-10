@@ -10,34 +10,13 @@ import Details from "./Components/Details";
 import axios from "axios";
 import "./App.css";
 
-//#region ROUTING:
-// Save the Component, key and path in an array of objects for each Route
-// You could write all routes by hand but I'm lazy annd this lets me use
-// the map method to just loop over them and make my routes
-// SWITCH is used so that it only ever matches one route at a time
-// If you don't want to use react router just rewrite the app component to not use it
-
-// const routes = [
-//   // {
-//   //   Component: Navbar,
-//   //   key: "MoodMix",
-//   //   path: "/Navbar",
-//   // },
-//   {
-//     Component: Home,
-//     key: "Home",
-//     path: "/Homepage",
-//   },
-// ];
-//#endregion ROUTING
-
 export default function App() {
   // // api credentials:
   const spotify = Credentials();
 
   console.count("RENDERING APP.JS");
 
-  // hooks:
+  // HOOKS:
   const [token, setToken] = useState("");
   // console.log("token", token);
   const [genres, setGenres] = useState({ selectedGenre: "", listOfGenres: [] });
@@ -107,6 +86,7 @@ export default function App() {
     });
   }, [genres.selectedGenre, spotify.ClientId, spotify.ClientSecret]);
 
+  // EVENT HANDLERS:
   // genreChanged handles playlist update:
   const genreChanged = (value) => {
     setGenres({
@@ -172,6 +152,68 @@ export default function App() {
     setTrackDetail(trackInfo[0].track);
   };
 
+  // // sliders hooks:
+  // const [acousticnessValue, setAcousticnessValue] = useState(5);
+  // const [energyValue, setEnergyValue] = useState(5);
+  // const [danceabilityValue, setDanceabilityValue] = useState(5);
+  // const [instrumentalnessValue, setInstrumentalnessValue] = useState(5);
+  // const [valenceValue, setValenceValue] = useState(5);
+  const [rangeValue, setRangeValue] = useState(5);
+  // const [genres, setGenres] = useState({ selectedGenre: "", listOfGenres: [] });
+
+  const rangeData = [
+    {
+      name: "acousticness",
+      min_label: "acoustic",
+      max_label: "electric",
+      className: "slider acousticness-slider",
+      // rangeValue: { rangeValue },
+      handleRangeChange: (e) => {
+        setRangeValue(e.target.value);
+      },
+    },
+    {
+      name: "energy",
+      min_label: "chill",
+      max_label: "hype",
+      className: "slider energy-slider",
+      // rangeValue: { rangeValue },
+      handleRangeChange: (e) => {
+        setRangeValue(e.target.value);
+      },
+    },
+    {
+      name: "danceability",
+      min_label: "offbeat",
+      max_label: "dancey",
+      className: "slider danceability-slider",
+      // rangeValue: { rangeValue },
+      handleRangeChange: (e) => {
+        setRangeValue(e.target.value);
+      },
+    },
+    {
+      name: "instrumentalness",
+      min_label: "verbose",
+      max_label: "instrumental",
+      className: "slider instrumentalness-slider",
+      // rangeValue: { rangeValue },
+      handleRangeChange: (e) => {
+        setRangeValue(e.target.value);
+      },
+    },
+    {
+      name: "valence",
+      min_label: "melancholy",
+      max_label: "upbeat",
+      className: "slider valence-slider",
+      // rangeValue: { rangeValue },
+      handleRangeValue: (e) => {
+        setRangeValue(e.target.value);
+      },
+    },
+  ];
+
   return (
     <div className="App">
       <Navbar />
@@ -180,11 +222,11 @@ export default function App() {
         <p>{seedGenreRecs}</p>
       </div> */}
 
-      <div className="selections">
-        <div className="searchbar-container">
-          <Searchbar data={() => {}} />
-        </div>
+      <div className="searchbar-container">
+        <Searchbar data={() => {}} />
+      </div>
 
+      <div className="selections">
         <form onSubmit={buttonClicked}>
           <div className="flex-center dropdown-container">
             {/* <div className="dropdown">
@@ -219,6 +261,7 @@ export default function App() {
                 Submit
               </button>
             </div>
+
             <Listbox items={tracks.listOfTracks} clicked={listboxClicked} />
 
             {/* we're passing our track object to the track Detail component using the spread operator */}
@@ -228,31 +271,17 @@ export default function App() {
           </div>
         </form>
       </div>
-
+      {/* <form onRangeSubmit={() => {}}> */}
       <div className="sliders-container">
-        <Sliders audioFeatures={() => {}} />
+        <Sliders
+          rangeData={rangeData}
+          onRangeChange={(value) => {
+            setRangeValue(value);
+            // console.log("range value: ", value);
+          }}
+        />
       </div>
+      {/* </form> */}
     </div>
-
-    //#region ROUTING:
-    // <Router>
-    //   <nav>
-    //     {routes.map((route) => (
-    //       <Link key={route.key} to={route.path}>
-    //         {route.key}
-    //       </Link>
-    //     ))}
-    //   </nav>
-    //   <Switch>
-    //     {routes.map(({ key, Component, path }) => (
-    //       <Route
-    //         key={key}
-    //         path={path}
-    //         component={(props) => <Component {...props} page={key} />}
-    //       />
-    //     ))}
-    //   </Switch>
-    // </Router>
-    //#endregion ROUTING
   );
 }

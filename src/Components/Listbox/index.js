@@ -5,6 +5,7 @@ const Listbox = (props) => {
   const clicked = (e) => {
     e.preventDefault();
 
+    console.log(e.target, e.target.id);
     props.clicked(e.target.id);
   };
 
