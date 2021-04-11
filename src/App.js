@@ -1,32 +1,145 @@
-// import { HashRouter as Router, Route, Switch, Link } from "react-router-dom";
+import "./App.css";
+import { HashRouter as Router, Route, Switch, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Credentials } from "./Components/Credentials";
-import DropdownMenu from "./Components/DropdownMenu";
+import RangeSlider from "./Components/RangeSlider";
+import SelectGenre from "./Components/SelectGenre";
 import Navbar from "./Components/Navbar";
-import Searchbar from "./Components/Searchbar";
-import Sliders from "./Components/Sliders";
-import Listbox from "./Components/Listbox";
-import Details from "./Components/Details";
 import axios from "axios";
-import "./App.css";
 
-export default function App() {
-  // // api credentials:
-  const spotify = Credentials();
+const routes = [
+  // {
+  //   Component: Home,
+  //   key: "MoodMix",
+  //   path: "/",
+  // },
+  // {
+  //   Component: RangeSlider,
+  //   key: "Mood",
+  //   path: "/mood",
+  // },
+  // {
+  //   Component: SelectGenre,
+  //   key: "Select Genre",
+  //   path: "/genre",
+  // },
+  // {
+  //   Component: Playlist,
+  //   key: "Playlist",
+  //   path: "/mood/playlist",
+  // },
+];
 
-  console.count("RENDERING APP.JS");
+const App = () => {
+  console.count("Render count: ");
 
-  // HOOKS:
+  const spotifyIds = Credentials();
+
+  // range slider data:
+  const acousticnessData = [
+    {
+      name: "acousticness",
+      id: 0,
+      type: "range",
+      min_label: "acoustic",
+      max_label: "electric",
+      min: 0,
+      max: 10,
+      step: 0.1,
+      className: "slider acousticness-slider",
+    },
+  ];
+  const energyData = [
+    {
+      name: "energy",
+      id: 1,
+      type: "range",
+      min_label: "chill",
+      max_label: "hype",
+      min: 0,
+      max: 9,
+      step: 0.1,
+      className: "slider energy-slider",
+    },
+  ];
+  const danceabilityData = [
+    {
+      name: "danceability",
+      id: 2,
+      type: "range",
+      min_label: "offbeat",
+      max_label: "dancey",
+      min: 0,
+      max: 9,
+      step: 0.1,
+      className: "slider danceability-slider",
+    },
+  ];
+  const instrumentalnessData = [
+    {
+      name: "instrumentalness",
+      id: 3,
+      type: "range",
+      min_label: "verbose",
+      max_label: "instrumental",
+      min: 0,
+      max: 9,
+      step: 0.1,
+      className: "slider instrumentalness-slider",
+    },
+  ];
+  const valenceData = [
+    {
+      name: "valence",
+      id: 4,
+      type: "range",
+      min_label: "melancholy",
+      max_label: "upbeat",
+      min: 0,
+      max: 9,
+      step: 0.1,
+      className: "slider valence-slider",
+    },
+  ];
+
+  // hooks:
   const [token, setToken] = useState("");
-  // console.log("token", token);
-  const [genres, setGenres] = useState({ selectedGenre: "", listOfGenres: [] });
-  const [playlist, setPlaylist] = useState({
-    selectedPlaylist: "",
-    listOfPlaylist: [],
+  console.log("token: ", token);
+  const [genres, setGenres] = useState({ selectedGenre: "", genresList: [] });
+  // const [playlist, setPlaylist] = useState({selectPlaylist: '', playlistList: []}); <<--- 13:43
+  // const [acousticness, setAcousticness] = useState(5);
+  const [acousticness, setAcousticness] = useState({
+    selectedAcousticness: "",
+    acousticnessData: [],
   });
-  const [tracks, setTracks] = useState({ selectedTrack: "", listOfTracks: [] });
-  const [trackDetail, setTrackDetail] = useState(null);
-  // const [seedGenreRecs, setSeedGenreRecs] = useState([]);
+  // const [energy, setEnergy] = useState(5);
+  const [energy, setEnergy] = useState({
+    selectedEnergy: "",
+    energyData: [{ selectedEnergy: "", energyData: [] }],
+  });
+  // const [danceability, setDanceability] = useState(5);
+  const [danceability, setDanceability] = useState({
+    selectedDanceability: "",
+    danceabilityData: [],
+  });
+  // const [instrumentalness, setInstrumentalness] = useState(5);
+  const [instrumentalness, setInstrumentalness] = useState({
+    selectedInstrumentalness: "",
+    instrumentalnessData: [],
+  });
+  // const [valence, setValence] = useState(5);
+  const [valence, setValence] = useState({
+    selectedValence: "",
+    valenceData: [],
+  });
+
+  // const
+  // // setting range states will look something like:
+  //         setAcousticness({
+  //           selectedAcousticness: acousticness.selectedAcousticness,
+  //           // acousticnessData: genreRes.data.genres, <<--- unsure about genreRes when translating below
+  //           acousticnessData: genreRes.data.acousticness,
+  //         });
 
   useEffect(() => {
     // GET API token:
@@ -34,254 +147,151 @@ export default function App() {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
         Authorization:
-          "Basic " + btoa(spotify.ClientId + ":" + spotify.ClientSecret),
+          "Basic " + btoa(spotifyIds.ClientId + ":" + spotifyIds.ClientSecret),
       },
       data: "grant_type=client_credentials",
       method: "POST",
-    }).then((tokenResponse) => {
-      setToken(tokenResponse.data.access_token);
+    }).then((tokenRes) => {
+      setToken(tokenRes.data.access_token);
 
-      //  GET genres:
-      axios("https://api.spotify.com/v1/browse/categories", {
-        method: "GET",
-        headers: { Authorization: "Bearer " + tokenResponse.data.access_token },
-      }).then((genreResponse) => {
-        // setGenres(genreResponse.data.categories.items);
-        // // state now manages selectedGenre in addition to the array of genres:
+      // GET/SET genres/ genre seeds:
+      axios(
+        "https://api.spotify.com/v1/recommendations/available-genre-seeds",
+        {
+          method: "GET",
+          headers: { Authorization: "Bearer " + tokenRes.data.access_token },
+        }
+      ).then((genreRes) => {
+        // setGenres(genreRes.data.genres);
         setGenres({
           selectedGenre: genres.selectedGenre,
-          listOfGenres: genreResponse.data.categories.items,
+          genresList: genreRes.data.genres,
         });
+        // console.log("genres:", genres);
       });
-
-      // // GET seed genre recommendations:
-      // axios(
-      //   "https://api.spotify.com/v1/recommendations?market=US&seed_genres=classical%2Ccountry%2Crap%2Crock%2Cpop&min_acousticness=0.3",
-      //   {
-      //     method: "GET",
-      //     headers: {
-      //       Authorization: "Bearer " + tokenResponse.data.access_token,
-      //       // Accept: "application/json",
-      //       // "Content-Type": "application/json",
-      //     },
-      //   }
-      // ).then((seedGenreRecsResponse) => {
-      //   setSeedGenreRecs(seedGenreRecs.tracks);
-      //   console.log("seedGenreRecsResponse: ", seedGenreRecsResponse);
-      //   console.log(
-      //     "seedGenreRecsResponse.data.tracks: ",
-      //     seedGenreRecsResponse.data.tracks
-      //   );
-      //   console.log(
-      //     "seedGenreRecsResponse.data.tracks[0].id: ",
-      //     seedGenreRecsResponse.data.tracks[0].id
-      //   );
-      //   console.log(
-      //     "seedGenreRecsResponse.data.tracks[0].name: ",
-      //     seedGenreRecsResponse.data.tracks[0].name
-      //   );
-      // });
-
-      //
     });
-  }, [genres.selectedGenre, spotify.ClientId, spotify.ClientSecret]);
+    //
+  }, [genres.selectedGenre, spotifyIds.ClientId, spotifyIds.ClientSecret]);
 
-  // EVENT HANDLERS:
-  // genreChanged handles playlist update:
+  // app component method to set selected state
   const genreChanged = (value) => {
     setGenres({
       selectedGenre: value,
-      listOfGenres: genres.listOfGenres,
-    });
-    //
-    // GET playlists
-    axios(
-      `https://api.spotify.com/v1/browse/categories/${value}/playlists?limit=10`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      }
-    ).then((playlistResponse) => {
-      setPlaylist({
-        selectedPlaylist: playlist.selectedPlaylist,
-        listOfPlaylist: playlistResponse.data.playlists.items,
-      });
+      genresList: genres.genresList,
     });
   };
 
-  const playlistChanged = (value) => {
-    setPlaylist({
-      selectedPlaylist: value,
-      listOfPlaylist: playlist.listOfPlaylist,
+  const acousticnessChanged = (value) => {
+    setAcousticness({
+      selectedAcousticness: value,
+      acousticnessData: acousticness.acousticnessData,
     });
+    console.log("APP: changed value acousticness: ", value);
   };
-
-  // click event triggers api call to get list of tracks for selected playlist
-  // btn click populates a list of tracks and a clickable Listbox component
-  const buttonClicked = (e) => {
-    e.preventDefault();
-
-    axios(
-      `https://api.spotify.com/v1/playlists/${playlist.selectedPlaylist}/tracks?limit=10`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      }
-    ).then((tracksResponse) => {
-      setTracks({
-        selectedTrack: tracks.selectedTrack,
-        listOfTracks: tracksResponse.data.items,
-      });
+  const energyChanged = (value) => {
+    setEnergy({
+      selectedEnergy: value,
+      energyData: energy.energyData,
     });
+    console.log("APP: changed value energy: ", value);
   };
-
-  //handles listbox submit
-  const listboxClicked = (value) => {
-    const currentTracks = [...tracks.listOfTracks];
-    const trackInfo = currentTracks.filter((t) => t.track.id === value);
-    // when we click on the listbox item we get the selectedTrack id - we set it here as the id of the button
-    // we then use the spread operator on the tracks state var to create a new list of tracks
-    // then we use filter to find the track id that matched our buttons id
-    // finally, we store track info in it's state var
-    // (we will create one more component to hold this detail info)
-
-    setTrackDetail(trackInfo[0].track);
+  const danceabilityChanged = (value) => {
+    setDanceability({
+      selectedDanceability: value,
+      danceabilityData: danceability.danceabilityData,
+    });
+    console.log("APP: changed value danceability: ", value);
   };
-
-  // // sliders hooks:
-  // const [acousticnessValue, setAcousticnessValue] = useState(5);
-  // const [energyValue, setEnergyValue] = useState(5);
-  // const [danceabilityValue, setDanceabilityValue] = useState(5);
-  // const [instrumentalnessValue, setInstrumentalnessValue] = useState(5);
-  // const [valenceValue, setValenceValue] = useState(5);
-  const [rangeValue, setRangeValue] = useState(5);
-  // const [genres, setGenres] = useState({ selectedGenre: "", listOfGenres: [] });
-
-  const rangeData = [
-    {
-      name: "acousticness",
-      min_label: "acoustic",
-      max_label: "electric",
-      className: "slider acousticness-slider",
-      // rangeValue: { rangeValue },
-      handleRangeChange: (e) => {
-        setRangeValue(e.target.value);
-      },
-    },
-    {
-      name: "energy",
-      min_label: "chill",
-      max_label: "hype",
-      className: "slider energy-slider",
-      // rangeValue: { rangeValue },
-      handleRangeChange: (e) => {
-        setRangeValue(e.target.value);
-      },
-    },
-    {
-      name: "danceability",
-      min_label: "offbeat",
-      max_label: "dancey",
-      className: "slider danceability-slider",
-      // rangeValue: { rangeValue },
-      handleRangeChange: (e) => {
-        setRangeValue(e.target.value);
-      },
-    },
-    {
-      name: "instrumentalness",
-      min_label: "verbose",
-      max_label: "instrumental",
-      className: "slider instrumentalness-slider",
-      // rangeValue: { rangeValue },
-      handleRangeChange: (e) => {
-        setRangeValue(e.target.value);
-      },
-    },
-    {
-      name: "valence",
-      min_label: "melancholy",
-      max_label: "upbeat",
-      className: "slider valence-slider",
-      // rangeValue: { rangeValue },
-      handleRangeValue: (e) => {
-        setRangeValue(e.target.value);
-      },
-    },
-  ];
+  const instrumentalnessChanged = (value) => {
+    setInstrumentalness({
+      selectedInstrumentalness: value,
+      instrumentalnessData: instrumentalness.instrumentalnessData,
+    });
+    console.log("APP: changed value instrumentalness: ", value);
+  };
+  const valenceChanged = (value) => {
+    setValence({
+      selectedValence: value,
+      valenceData: valence.valenceData,
+    });
+    console.log("APP: changed value valence: ", value);
+  };
 
   return (
-    <div className="App">
+    <Router>
       <Navbar />
-      {/* <div>
-        <h3>TRACK DATA</h3>
-        <p>{seedGenreRecs}</p>
-      </div> */}
-
-      <div className="searchbar-container">
-        <Searchbar data={() => {}} />
-      </div>
-
-      <div className="selections">
-        <form onSubmit={buttonClicked}>
-          <div className="flex-center dropdown-container">
-            {/* <div className="dropdown">
-              <DropdownMenu className="menu" seedGenreRecs={seedGenreRecs} />
-            </div> */}
-
-            <div className="dropdown">
-              <DropdownMenu
-                className="menu"
-                options={genres.listOfGenres}
-                selectedValue={genres.selectedGenre}
-                changed={genreChanged}
-              />
-            </div>
-
-            <div className="dropdown">
-              <DropdownMenu
-                className="menu"
-                options={playlist.listOfPlaylist}
-                selectedValue={playlist.selectedPlaylist}
-                changed={playlistChanged}
-              />
-            </div>
-
-            <div className="btn-container submit-btn-container">
-              <button
-                type="submit"
-                // value="Submit"
-                // onSubmit={handleSubmit}
-                className="btn submit-btn"
-              >
-                Submit
-              </button>
-            </div>
-
-            <Listbox items={tracks.listOfTracks} clicked={listboxClicked} />
-
-            {/* we're passing our track object to the track Detail component using the spread operator */}
-            {/* the properties of the track object are extracted for us this way */}
-            {/* this allows us to use object destructuring in the component */}
-            {trackDetail && <Details {...trackDetail} />}
-          </div>
-        </form>
-      </div>
-      {/* <form onRangeSubmit={() => {}}> */}
-      <div className="sliders-container">
-        <Sliders
-          rangeData={rangeData}
-          onRangeChange={(value) => {
-            setRangeValue(value);
-            // console.log("range value: ", value);
-          }}
+      <form onSubmit={() => {}}>
+        <RangeSlider
+          rangeData={acousticnessData}
+          selectedAcousticness={acousticness.selectedAcousticness}
+          rangeChanged={acousticnessChanged}
         />
-      </div>
-      {/* </form> */}
-    </div>
+        {/* <RangeSlider rangeData={acousticness.acousticnessData} selectedValue={acousticness.selectedAcousticness} acousticnessChanged={acousticnessChanged} /> */}
+
+        <RangeSlider
+          rangeData={energyData}
+          selectedEnergyData={energy.selectedEnergy}
+          rangeChanged={energyChanged}
+        />
+        {/* <RangeSlider rangeData={energyData} /> */}
+
+        <RangeSlider
+          rangeData={danceabilityData}
+          selectedRangeData={danceability.selectedDanceability}
+          rangeChanged={danceabilityChanged}
+        />
+        {/* <RangeSlider rangeData={danceabilityData} /> */}
+
+        <RangeSlider
+          rangeData={instrumentalnessData}
+          selectedRangeData={instrumentalness.selectedInstrumentalness}
+          rangeChanged={instrumentalnessChanged}
+        />
+        {/* <RangeSlider rangeData={instrumentalnessData} /> */}
+
+        <RangeSlider
+          rangeData={valenceData}
+          selectedRangeData={valence.selectedValence}
+          rangeChanged={valenceChanged}
+        />
+        {/* <RangeSlider rangeData={valenceData} /> */}
+
+        <SelectGenre
+          data={genres.genresList}
+          selectedValue={genres.selectedGenre}
+          changed={genreChanged}
+        />
+
+        <button type="submit">Submit</button>
+      </form>
+    </Router>
   );
-}
+};
+
+export default App;
+
+// <Router>
+//       <Nav />
+//       <nav>
+//         {/* {routes.map((route) => (
+//           <Link key={route.key} to={route.path}>
+//             {route.key}
+//           </Link>
+//         ))} */}
+//       </nav>
+
+//       <Switch>
+//         <Route
+//           exact
+//           path="/"
+//           render={() => <RangeSlider rangeData={rangeData} />}
+//         />
+//         {/* {routes.map(({ key, Component, path }) => (
+//           <Route
+//             key={key}
+//             path={path}
+//             component={(props) => <Component {...props} page={key} />}
+//           />
+//         ))} */}
+//       </Switch>
+//     </Router>

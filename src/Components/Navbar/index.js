@@ -1,20 +1,30 @@
-import { Link } from "react-router-dom";
+import "./style.css";
+// import { Link } from "react-router-dom";
 import logo from "../assets/images/logo.png";
-import "./Navbar.css";
 // import Searchbar from "../Searchbar";
+// import DropdownMenu from "../DropdownMenu";
 
 export default function Navbar() {
   //
   return (
-    <nav>
-      <div className="title-logo">
+    <nav className="Nav container">
+      {/* <div className="container nav-container"> */}
+
+      <div className="logo title nav-container">
         <img className="logo" src={logo} alt="spotify logo" width="150" />
-        <Link className="moodmix" to="/">
+        {/* <img className="logo" src="" alt="" width="150" /> */}
+        <div className="moodmix">MoodMix</div>
+        {/* <Link className="moodmix" to="/">
           MoodMix
-        </Link>
+        </Link> */}
       </div>
 
-      {/* <Searchbar /> */}
+      {/* </div> */}
+
+      <div className="container nav-container">
+        {/* <Searchbar /> */}
+        {/* <DropdownMenu /> */}
+      </div>
     </nav>
   );
 }
