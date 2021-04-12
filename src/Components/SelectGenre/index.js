@@ -1,3 +1,5 @@
+import "../../App.css";
+
 export default function SelectGenre(props) {
   const selectGenreChanged = (e) => {
     props.changed(e.target.value);

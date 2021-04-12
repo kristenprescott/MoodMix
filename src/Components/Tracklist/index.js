@@ -1,29 +1,32 @@
 import { Link } from "react-router-dom";
+import "../../App.css";
 
 export default function Tracklist(props) {
   return (
-    <div className="component-container">
+    <div className="component-container Tracklist-container">
       <h3 className="Title">Tracklist:</h3>
-      <div className="flex-container flex-row">
+      <div className="flex-container flex-row details-wrapper">
         {props.tracks.map((track, i) => (
-          <Link key={i} to="/track/:id">
+          <Link className="grid-container" key={i} to="/track/:id">
             <div
               onClick={() => props.handleTrackClick(track)}
               className="card-container grid-container details-container"
             >
-              <div className="track-detail tracklist-wrapper">
+              <div className="track-detail tracklist-wrapper details">
                 <label className="sub-title">Artist:</label>
-                <div>{track.artists[0].name} - </div>
+                <div className="track-artist sub-detail">
+                  {track.artists[0].name} -{" "}
+                </div>
               </div>
 
-              <div className="track-detail tracklist-wrapper">
+              <div className="track-detail tracklist-wrapper details">
                 <label className="sub-title">Title:</label>
-                <div>{track.name}</div>
+                <div className="track-title sub-detail">{track.name}</div>
               </div>
 
-              <div className="track-detail tracklist-wrapper">
+              <div className="track-detail tracklist-wrapper details">
                 <label className="sub-title">Album</label>
-                <div>{track.album.name}</div>
+                <div className="track-album sub-detail">{track.album.name}</div>
               </div>
             </div>
           </Link>

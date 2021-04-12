@@ -1,8 +1,6 @@
 import "./style.css";
-// import { Link } from "react-router-dom";
+import "../../App.css";
 import logo from "../assets/images/logo.png";
-// import Searchbar from "../Searchbar";
-// import DropdownMenu from "../DropdownMenu";
 
 export default function Navbar() {
   //

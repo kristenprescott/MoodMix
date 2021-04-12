@@ -1,6 +1,12 @@
+.Tracklist-container {
+  background: rgba(0, 0, 0, 0.5);
+}
+
 .component-container {
   border-radius: 9px;
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5), -2px -2px 5px rgba(0, 0, 0, 0.5);
+  box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.5),
+    inset -2px -2px 5px rgba(0, 0, 0, 0.5);
+  width: 100vw;
 }
 
 .flex-container {
@@ -24,6 +30,8 @@
   display: grid;
   grid-template-columns: repeat(1, [col] auto);
   grid-template-rows: repeat(3, [row] auto);
+  margin: 1% auto;
+  padding: 0 1%;
 }
 
 .Title {
@@ -31,9 +39,13 @@
   font-weight: bolder;
   font-size: 4rem;
   text-align: center;
+  background-color: #fff;
+  border-radius: 9px;
+  box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.5),
+    inset -2px -2px 5px rgba(0, 0, 0, 0.5);
 }
 
-.sub-title {
+.track-name {
   font-weight: bolder;
   font-size: 3.2rem;
 }
@@ -45,7 +57,10 @@
 
 .select {
   background: none;
-  box-shadow: inset 7px 7px 7px #cbced1, inset -8px -8px 9px #ffffff;
+  /* box-shadow: inset 7px 7px 7px #cbced1, inset -8px -8px 9px #ffffff; */
+  border-radius: 9px;
+  box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.5),
+    inset -2px -2px 5px rgba(0, 0, 0, 0.5);
   width: 100%;
   border-radius: 5px;
   border: none;
@@ -55,18 +70,26 @@
 }
 
 .card-container {
-  border-radius: 5px;
+  background-color: #fff;
+  border-radius: 9px;
   box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.5),
     inset -2px -2px 5px rgba(0, 0, 0, 0.5);
 }
 
 .album-img {
-  margin-top: 2rem;
+  margin-top: 10%;
+  margin-bottom: 10%;
+}
+.track-artist {
+  margin-bottom: 10%;
+}
+.track-album {
+  margin-bottom: 10%;
 }
 .square-wrapper {
   display: flex;
   position: relative;
-  width: 50%;
+  width: 70%;
 }
 .square-wrapper:after {
   content: "";
@@ -84,9 +107,140 @@
   grid-template-columns: repeat(1, [col] auto);
   /* grid-template-rows: repeat(3, [row] auto); */
 }
+.details-wrapper {
+  /* background-color: rgba(0, 0, 0, 0.2); */
+}
+.details {
+  /* background-color: ghostwhite; */
+}
 .track-detail {
   width: 45rem;
   height: 12rem;
   padding: 1rem;
   overflow: auto;
+}
+.track-name {
+  font-size: 28px;
+}
+.track-artist {
+  font-size: 22px;
+}
+.track-album {
+  font-size: 22px;
+}
+
+/* If [device width] is greater than or equal to 600px, then do {…} */
+@media only screen and (min-width: 1200px) {
+  .square-wrapper {
+    display: flex;
+    position: relative;
+    width: 30%;
+  }
+}
+
+/* If [device width] is less than or equal to 600px, then do {…} */
+@media only screen and (max-width: 600px) {
+  #root {
+    width: 100%;
+    height: 100%;
+  }
+  /* NAV */
+  .Nav.container {
+    /* height: 30%; */
+    width: 100vmin;
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .Nav {
+    /* flex: 1; */
+    /* display: flex; */
+    width: 50%;
+    height: 30%;
+    border-radius: 1.5rem;
+    color: white;
+    background: #1db954;
+    box-shadow: inset 2px 2px 5px #116f32, inset -2px -2px 5px #a5e3bb;
+  }
+
+  .Nav:hover {
+    box-shadow: inset 2px 2px 5px #116f32, inset -2px -2px 5px #a5e3bb;
+  }
+
+  .Nav a {
+    color: white;
+    display: inline-block;
+    padding: 2.5rem;
+    margin: 0.5rem;
+  }
+
+  .Nav a:hover {
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 35px;
+  }
+
+  .moodmix {
+    font-family: "Righteous", cursive;
+    font-size: 7.8rem;
+    text-shadow: 0 9px 7px rgba(0, 0, 0, 0.8);
+  }
+
+  .title.nav-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .logo {
+    display: none;
+  }
+
+  .nav-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 1rem 2rem;
+  }
+
+  .component-container {
+    width: 100vw;
+  }
+
+  .Tracklist-container {
+    width: 100%;
+  }
+
+  .grid-container {
+    display: flex;
+  }
+
+  .details-container {
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  .details {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+  }
+
+  .sub-title {
+    display: none;
+  }
+  .sub-detail {
+    font-size: 2.5rem;
+  }
+
+  .grid-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 50%;
+    width: 100vw;
+  }
 }

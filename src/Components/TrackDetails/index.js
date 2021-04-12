@@ -1,3 +1,5 @@
+import "../../App.css";
+
 export default function TrackDetails(props) {
   console.log(props.selectedTrack);
   return (
