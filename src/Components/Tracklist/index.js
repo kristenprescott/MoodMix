@@ -9,7 +9,7 @@ export default function Tracklist(props) {
           <Link key={i} to="/track/:id">
             <div
               onClick={() => props.handleTrackClick(track)}
-              className=" grid-container details-container"
+              className="card-container grid-container details-container"
             >
               <div className="track-detail tracklist-wrapper">
                 <label className="sub-title">Artist:</label>

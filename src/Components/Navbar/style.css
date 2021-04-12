@@ -48,10 +48,6 @@
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  /* justify-content: center; */
-  /* align-items: left; */
-  /* align-items: center; */
-  /* margin: 1rem; */
 }
 
 .nav-container {
@@ -71,12 +67,7 @@
 /* SEARCHBAR */
 .search-wrapper.green-search-wrapper {
   flex: 1;
-  /* display: grid; */
   background-color: #1db954;
-}
-
-.searchbar-container.green-searchbar-container {
-  /* border: 1px solid red; */
 }
 
 .searchbar.green-searchbar {
@@ -110,8 +101,6 @@
   box-shadow: 0 0 5px #0f5d2a, 0 0 3px #bbeacc;
 }
 .green-btn:active.btn:active {
-  /* LESS GAUDY: */
-  /* box-shadow: inset 1rem 1rem 2rem #116f32, -2rem -2rem 3rem #77d598; */
   box-shadow: inset 2rem 2rem 1rem #116f32, inset -2rem -2rem 1rem #77d598;
 }
 
