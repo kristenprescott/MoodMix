@@ -1,6 +1,7 @@
 # MoodMix
 
 A web app that uses the Spotify API to curate playlists based on your mood
+[Link](https://kristenprescott.github.io/Mood_Mix/#/) to live site
 
 ---
 
