@@ -3,40 +3,31 @@
 }
 
 .component-container {
-  padding: 2rem;
-  margin: 0 auto;
+  border-radius: 9px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5), -2px -2px 5px rgba(0, 0, 0, 0.5);
 }
 
 .flex-container {
   display: flex;
   flex-wrap: wrap;
   text-align: center;
-}
-
-.flex-child {
-  padding: 0.5rem;
+  justify-content: center;
+  align-content: center;
 }
 
 .flex-row {
   flex-direction: row;
-  align-content: center;
-  justify-content: center;
 }
 
 .flex-col {
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 }
 
 .grid-container {
   display: grid;
-  /* text-align: center; */
-  /* grid-gap: 0.5rem; */
   grid-template-columns: repeat(1, [col] auto);
   grid-template-rows: repeat(3, [row] auto);
-  background-color: #fff;
-  color: #444;
 }
 
 .Title {
@@ -51,19 +42,21 @@
   font-size: 3.2rem;
 }
 
-.tracklist {
-  color: #444;
-}
 .tracklist-wrapper {
   display: grid;
-  grid-gap: 0.5rem;
+  grid-gap: 1rem;
   grid-template-columns: repeat(1, [col] auto);
-  grid-template-rows: repeat(1, [row] auto);
-  border: 1px solid gainsboro;
+  /* grid-template-rows: repeat(3, [row] auto); */
+}
+.track-detail {
+  width: 45rem;
+  height: 12rem;
+  padding: 1rem;
+  overflow: auto;
 }
 
 .dropdownMenu {
-  /* border-radius: 9px; */
+  border-radius: 9px;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5), -2px -2px 5px rgba(0, 0, 0, 0.5);
 }
 .select {
@@ -74,12 +67,20 @@
   border: none;
   border: 1px solid rgba(0, 0, 0, 0.5);
   outline: none;
-  /* background-color: #1db954; */
   text-align: center;
 }
-
-.album-image {
-  width: 30%;
-  border-radius: 9px;
-  margin: 1rem;
+.square-wrapper {
+  display: flex;
+  position: relative;
+  width: 50%;
+}
+.square-wrapper:after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
+}
+.square {
+  position: absolute;
+  width: 100%;
+  height: 100%;
 }

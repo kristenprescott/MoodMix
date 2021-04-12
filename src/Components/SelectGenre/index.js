@@ -6,7 +6,7 @@ export default function SelectGenre(props) {
   };
 
   return (
-    <div className="flex-container flex-col select-genre dropdownMenu">
+    <div className="component-container flex-container flex-col select-genre ">
       <h1 className="select title">Choose a genre:</h1>
       <select
         value={props.selectedValue}

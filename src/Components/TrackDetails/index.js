@@ -1,14 +1,15 @@
 export default function TrackDetails(props) {
   console.log(props.selectedTrack);
   return (
-    <div className="flex-container flex-col track-details">
-      <img
-        src={props.selectedTrack.album.images[0].url}
-        className="album-image"
-      />
-      <div className="sub-title flex-child">{props.selectedTrack.name}</div>
-      <div className="flex-child">by {props.selectedTrack.artists[0].name}</div>
-      <div className="flex-child">Album: {props.selectedTrack.album.name}</div>
+    <div className="component-container flex-container flex-col track-details">
+      <div className="square-wrapper">
+        <img src={props.selectedTrack.album.images[0].url} className="square" />
+      </div>
+      <div className="sub-title track-name">{props.selectedTrack.name}</div>
+      <div className="track-artist">
+        by {props.selectedTrack.artists[0].name}
+      </div>
+      <div className="track-album">Album: {props.selectedTrack.album.name}</div>
     </div>
   );
 }
