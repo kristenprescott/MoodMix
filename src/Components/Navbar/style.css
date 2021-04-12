@@ -124,17 +124,16 @@
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5), -2px -2px 5px rgba(0, 0, 0, 0.5);
 }
 
-.select {
-  width: 100%;
+.Select {
   /* height: 100%; */
+  /* background: none; */
+  /* box-shadow: inset 7px 7px 7px #cbced1, inset -8px -8px 9px #ffffff; */
+  width: 100%;
   border-radius: 5px;
   border: none;
   border: 1px solid rgba(0, 0, 0, 0.5);
-
   outline: none;
   background-color: #1db954;
-  /* background: none; */
-  /* box-shadow: inset 7px 7px 7px #cbced1, inset -8px -8px 9px #ffffff; */
   text-align: center;
 }
 .option {

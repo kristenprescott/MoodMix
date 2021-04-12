@@ -1,166 +1,85 @@
-.App.container {
-  /* height: 100vh; */
-  width: 100vw;
-  background-color: rgba(0, 0, 0, 0.9);
-}
-
-main.App {
-  display: flex;
-  flex-direction: column;
-  background-color: rgba(0, 0, 0, 0.7);
-}
-
-.Homepage {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  height: 100vh;
-  border-radius: 1.5rem;
-}
-
-/* MENU */
-/* .menu {
-  width: 10rem;
-  margin: 0 auto;
-  padding: 1rem 0;
-  display: flex;
-  flex-direction: column;
-  margin: 0 auto;
-}
-.listbox {
-  background-color: red;
-  border: 1px solid gainsboro;
-} */
-
-/* SEARCHBAR */
-.search-wrapper {
-  /* display: flex; */
-  /* flex-direction: column; */
-  /* align-items: center; */
-  /* justify-content: space-evenly; */
-  /* padding: 60px 35px 35px 35px; */
-  /* width: 60rem; */
-  /* height: 5rem; */
-  /* box-shadow: 13px 13px 20px rgba(0, 0, 0, 0.2),
-    -13px -13px 20px rgba(255, 255, 255, 0.2); */
-  border: none;
-  outline: none;
-  background: none;
-  border-radius: 4rem;
-  background: #ecf0f3;
-}
-
-.searchbar-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* justify-content: flex-end; */
-  /* padding: 0.5rem; */
-  /* height: 10%; */
-  width: 50%;
-  border: none;
-  outline: none;
-  background: none;
-}
-
-.searchbar {
-  width: 90%;
-  height: 65%;
-  font-size: 2.2rem;
-  border: none;
-  outline: none;
-  background: none;
-  border-radius: 2.5rem;
-  box-shadow: inset 7px 7px 7px #cbced1, inset -8px -8px 9px #ffffff;
-  text-align: center;
-}
-.searchbar:hover {
-  box-shadow: inset 9px 9px 3px #cbced1, inset -8px -8px 8px #ffffff;
-}
-.searchbar:focus {
-  box-shadow: inset -8px -8px 6px #ffffff, inset 8px 8px 3px #cbced1;
-}
-
-/* FORM */
-.container.form-container {
-  display: flex;
-  /* border: 1px solid white; */
-}
-/*  BTN */
-.btn-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  /* width: 28rem; */
-  /* height: 7rem; */
-  width: 50%;
-  height: 5.5rem;
-  border-radius: 5.5rem;
-  background-color: #ecf0f3;
-  border: 5px solid floralwhite;
-}
-.btn {
-  /* width: 25rem; */
-  /* height: 4rem; */
-  width: 85%;
-  height: 60%;
-  /* SET UP SEPARATE STYLES FOR ACCESSIBILITY */
-  outline: 0;
-  font-size: 1.9rem;
-  text-align: center;
-  border-radius: 18px;
-  color: ghostwhite;
-  background-color: #ecf0f3;
+* {
   /* border: 1px solid gainsboro; */
-  box-shadow: 1rem 1rem 2rem #b3b3b3, inset -2rem -2rem 1rem #e6e6e6;
 }
-.btn:hover {
-  box-shadow: 0 0 5px rgba(255, 255, 255, 0.5), 0 0 3px #fff;
-}
-.btn:active {
-  /* LESS GAUDY: */
-  /* box-shadow: inset 1rem 1rem 2rem #b3b3b3, -2rem -2rem 3rem #e6e6e6; */
-  box-shadow: inset 2rem 2rem 1rem #b3b3b3, inset -2rem -2rem 1rem #e6e6e6;
-}
-/* 
-@media screen and (max-width: 44em) {
-  .nav-small {
-    display: block;
-  }
-  .navbar {
-    display: none;
-  }
-} */
-@media all and (max-width: 700px) {
-  .container {
-    flex-wrap: wrap;
-  }
-  .moodmix {
-    text-align: center;
-  }
-  .title.logo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  /* .logo {
-    display: none;
-  } */
-  .Nav {
-    border-radius: 1rem;
-  }
-  .searchbar {
-    display: none;
-  }
-  .green-btn-container {
-    display: none;
-  }
-  .DropdownMenu {
-    display: none;
-  }
 
-  .container > div {
-    flex-basis: 50%;
-  }
+.component-container {
+  padding: 2rem;
+  margin: 0 auto;
+}
+
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.flex-child {
+  padding: 0.5rem;
+}
+
+.flex-row {
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+}
+
+.flex-col {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.grid-container {
+  display: grid;
+  /* text-align: center; */
+  /* grid-gap: 0.5rem; */
+  grid-template-columns: repeat(1, [col] auto);
+  grid-template-rows: repeat(3, [row] auto);
+  background-color: #fff;
+  color: #444;
+}
+
+.Title {
+  flex: 1;
+  font-weight: bolder;
+  font-size: 4rem;
+  text-align: center;
+}
+
+.sub-title {
+  font-weight: bolder;
+  font-size: 3.2rem;
+}
+
+.tracklist {
+  color: #444;
+}
+.tracklist-wrapper {
+  display: grid;
+  grid-gap: 0.5rem;
+  grid-template-columns: repeat(1, [col] auto);
+  grid-template-rows: repeat(1, [row] auto);
+  border: 1px solid gainsboro;
+}
+
+.dropdownMenu {
+  /* border-radius: 9px; */
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5), -2px -2px 5px rgba(0, 0, 0, 0.5);
+}
+.select {
+  background: none;
+  box-shadow: inset 7px 7px 7px #cbced1, inset -8px -8px 9px #ffffff;
+  width: 100%;
+  border-radius: 5px;
+  border: none;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  outline: none;
+  /* background-color: #1db954; */
+  text-align: center;
+}
+
+.album-image {
+  width: 30%;
+  border-radius: 9px;
+  margin: 1rem;
 }
