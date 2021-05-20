@@ -1,7 +1,6 @@
 import "./App.css";
 import { HashRouter as Router, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Credentials } from "./Components/Credentials";
 import SelectGenre from "./Components/SelectGenre";
 import Navbar from "./Components/Navbar";
 import axios from "axios";
