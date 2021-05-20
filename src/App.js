@@ -11,7 +11,9 @@ import TrackDetails from "./Components/TrackDetails";
 const App = () => {
   // console.count("Render count: ");
 
-  const spotifyIds = Credentials();
+  // const spotifyIds = Credentials();
+  const ClientSecret = process.env.REACT_APP_CLIENT_SECRET;
+  const ClientId = process.env.REACT_APP_CLIENT_ID;
 
   // hooks:
   const [token, setToken] = useState("");
@@ -25,8 +27,7 @@ const App = () => {
     axios("https://accounts.spotify.com/api/token", {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        Authorization:
-          "Basic " + btoa(spotifyIds.ClientId + ":" + spotifyIds.ClientSecret),
+        Authorization: "Basic " + btoa(ClientId + ":" + ClientSecret),
       },
       data: "grant_type=client_credentials",
       method: "POST",
@@ -50,7 +51,7 @@ const App = () => {
       });
     });
     //
-  }, [genres.selectedGenre, spotifyIds.ClientId, spotifyIds.ClientSecret]);
+  }, [genres.selectedGenre, ClientId, ClientSecret]);
 
   // app component method to set selected state
   const genreChanged = (value) => {
