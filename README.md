@@ -1,8 +1,8 @@
 # MoodMix
 
-A web app that uses the Spotify API to curate playlists based on your mood
+Web-app created in React that uses the Spotify API via the client-credentials-flow for server-to-server authentication to allow users to curate playlists based on genre and view song details for individual tracks.
 
-[Link](https://kristenprescott.github.io/MoodMix/#/) to live site
+[Demo](https://kristenprescott.github.io/MoodMix/#/)
 
 ---
 
@@ -18,7 +18,7 @@ A web app that uses the Spotify API to curate playlists based on your mood
 
 #### APIs:
 
-- Spotify API using [client credentials flow](https://developer.spotify.com/documentation/general/guides/authorization-guide/#client-credentials-flow)
+- Spotify API using [client credentials flow](https://developer.spotify.com/documentation/general/guides/authorization-guide/#client-credentials-flow) for OAuth
 
 #### Languages:
 
@@ -40,4 +40,10 @@ A web app that uses the Spotify API to curate playlists based on your mood
 \*note: will need a Spotify premium account
 
 1. [Fork/Clone Instructions](https://guides.github.com/activities/forking/)
-2. Create a new app project at the [Spotify Developer Page](https://developer.spotify.com/dashboard/) - adjust the settings to add a redirect URI (`https://localhost:3000/callback` is common) and grab the Client details for later use.
+2. Create a new app project at the [Spotify Developer Page](https://developer.spotify.com/dashboard/) - adjust the settings to add a redirect URI (`https://localhost:3000/callback` is common) and grab the Client details(both Client ID and Client Secret) for later use.
+3. Create a file called `.env` at the root of the project directory; inside it, add these variables like so:
+   ```
+   REACT_APP_CLIENT_ID=<yourClientId>
+   REACT_APP_CLIENT_SECRET=<yourClientSecret>
+   ```
+4. To run the app locally, open the root folder in the command line and type `yarn start`, then open `http://localhost:3000`
