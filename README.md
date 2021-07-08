@@ -1,6 +1,6 @@
 # MoodMix
 
-Web-app created in React that uses the Spotify API via the client-credentials-flow for server-to-server authentication to allow users to curate playlists based on genre and view song details for individual tracks.
+Web-app created with React that uses the Spotify API via the client-credentials-flow for server-to-server authentication to allow users to curate playlists based on genre and view song details for individual tracks.
 
 [Demo](https://kristenprescott.github.io/MoodMix/#/)
 
