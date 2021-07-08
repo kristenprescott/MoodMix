@@ -57,7 +57,6 @@
 
 .select {
   background: none;
-  /* box-shadow: inset 7px 7px 7px #cbced1, inset -8px -8px 9px #ffffff; */
   border-radius: 9px;
   box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.5),
     inset -2px -2px 5px rgba(0, 0, 0, 0.5);
@@ -105,14 +104,8 @@
   display: grid;
   grid-gap: 1rem;
   grid-template-columns: repeat(1, [col] auto);
-  /* grid-template-rows: repeat(3, [row] auto); */
 }
-.details-wrapper {
-  /* background-color: rgba(0, 0, 0, 0.2); */
-}
-.details {
-  /* background-color: ghostwhite; */
-}
+
 .track-detail {
   width: 45rem;
   height: 12rem;
@@ -143,66 +136,6 @@
   #root {
     width: 100%;
     height: 100%;
-  }
-  /* NAV */
-  .Nav.container {
-    /* height: 30%; */
-    width: 100vmin;
-    flex: 1;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .Nav {
-    /* flex: 1; */
-    /* display: flex; */
-    width: 50%;
-    height: 30%;
-    border-radius: 1.5rem;
-    color: white;
-    background: #1db954;
-    box-shadow: inset 2px 2px 5px #116f32, inset -2px -2px 5px #a5e3bb;
-  }
-
-  .Nav:hover {
-    box-shadow: inset 2px 2px 5px #116f32, inset -2px -2px 5px #a5e3bb;
-  }
-
-  .Nav a {
-    color: white;
-    display: inline-block;
-    padding: 2.5rem;
-    margin: 0.5rem;
-  }
-
-  .Nav a:hover {
-    background: rgba(255, 255, 255, 0.6);
-    border-radius: 35px;
-  }
-
-  .moodmix {
-    font-family: "Righteous", cursive;
-    font-size: 7.8rem;
-    text-shadow: 0 9px 7px rgba(0, 0, 0, 0.8);
-  }
-
-  .title.nav-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
-
-  .logo {
-    display: none;
-  }
-
-  .nav-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin: 1rem 2rem;
   }
 
   .component-container {
